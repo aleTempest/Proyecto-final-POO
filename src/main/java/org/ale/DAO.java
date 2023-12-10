@@ -1,14 +1,44 @@
-package org.ale.DAO;
+package org.ale;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.*;
 
-public class UserDAO extends DAO{
-    public UserDAO(String url) {
-        super(url);
+public class DAO {
+    private String url;
+    protected Connection connection;
+    public DAO(String url) {
+        this.url = url;
     }
 
+    protected ResultSet execQuery(String query) {
+        try {
+            connection = connect();
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    protected Connection connect() {
+        try {
+            return DriverManager.getConnection("jdbc:sqlite:" + url);
+        } catch (SQLException e) {
+            System.out.println("Error connecting... " + e.getMessage());
+        }
+        return null;
+    }
+
+    protected void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error closing connection: " + e.getMessage());
+        }
+    }
     public ArrayList<String> getTeams() {
         var arr = new ArrayList<String>();
         try {
@@ -83,6 +113,10 @@ public class UserDAO extends DAO{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void deleteTeam(String team_id) {
+
     }
 
     public Boolean auth(String enrollment, String password) {

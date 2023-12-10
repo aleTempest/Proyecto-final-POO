@@ -1,13 +1,10 @@
 package org.ale;
 
-import org.ale.DAO.UserDAO;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.BufferedReader;
 
 public class Client {

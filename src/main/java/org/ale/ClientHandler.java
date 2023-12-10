@@ -1,7 +1,5 @@
 package org.ale;
 
-import org.ale.DAO.UserDAO;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,7 +15,7 @@ class ClientHandler implements Runnable {
     }
 
     private void clientInputHandler(Command command, String argument) {
-        var userDAO = new UserDAO(DB_PATH);
+        var userDAO = new DAO(DB_PATH);
         switch (command) {
             case GET_USER -> System.out.println(userDAO.printSelect(argument));
             case GET_HISTORY -> System.out.println(userDAO.getHistory(argument));
@@ -26,7 +24,7 @@ class ClientHandler implements Runnable {
     }
 
     private void clientInputHandler(Command command, String[] arguments) {
-        var userDAO = new UserDAO(DB_PATH);
+        var userDAO = new DAO(DB_PATH);
         switch (command) {
             case AUTH_USER -> {
                 var enrollment = arguments[1];
@@ -36,7 +34,6 @@ class ClientHandler implements Runnable {
             }
         }
     }
-
 
     @Override
     public void run() {
